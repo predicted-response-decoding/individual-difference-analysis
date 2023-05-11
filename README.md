@@ -47,8 +47,6 @@ We provide predicted decodings by measured and predicted voxel response.
    - Ad preference votes (data/TVAdMovieSet/{subject}/AdPreferenceVotes/, 28 subjects)
    - Subjective preference ratings (data/TVAdMovieSet/{subject}/PreferenceRatings/, 14 subjects)
 
-We also provide all subjects' data (data/TVAdMovieSet/PreferenceData.h5).
-
 **※In subjective preference ratings, IDR is also calculated for manual ratings, which were annotated from fMRI subjects.**
 
 ## How to use
