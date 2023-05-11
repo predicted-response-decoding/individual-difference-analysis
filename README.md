@@ -2,8 +2,6 @@
 
 This program show individual-difference reflection (IDR) of predictted-response decoding for measured-response decoding.
 
-For detail, please see the paper https://doi.org/10.1101/2022.05.16.492029
-
 ```
 .
 ├── data
