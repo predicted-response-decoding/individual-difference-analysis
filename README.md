@@ -1,4 +1,4 @@
-# Analysis for individual differences in brain decodings
+# Analysis for individual differences in mental information decoded from predicted voxel response
 
 This program show individual-difference reflection (IDR) of predictted-response decoding for measured-response decoding.
 
@@ -49,7 +49,7 @@ We provide predicted decodings by measured and predicted voxel response.
 
 ## How to use
 
-Execute plot.py. The result picture was stored in `result/` directory.
+Execute plot.py. The result pictures will be stored in `result/` directory.
 
 | Option | Description                                               | Choice         |
 | ------ | --------------------------------------------------------- | -------------- |
