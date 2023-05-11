@@ -51,7 +51,7 @@ We provide predicted decodings by measured and predicted voxel response.
 
 ## How to use
 
-Execute plot.py.
+Execute plot.py. The result picture was stored in `result/` directory.
 
 | Option | Description                                               | Choice         |
 | ------ | --------------------------------------------------------- | -------------- |
