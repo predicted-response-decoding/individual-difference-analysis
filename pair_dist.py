@@ -1,61 +1,77 @@
-import numpy as np
-import pandas as pd
-from scipy.stats import spearmanr
-from scipy.spatial.distance import pdist
-import matplotlib.pyplot as plt
+from typing import List, Tuple
+
 import h5py
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.spatial.distance import pdist
+from scipy.stats import spearmanr
 from tqdm import tqdm
-from util import (
-    pval_order,
-    vectorize_ndarray,
-    matrixify_ndarray,
-    makedirs_or_pass,
-)
+
 from config import (
     MANUAL_RATING_PATH,
     MEAS_RESP_DEC_PATH,
     PRED_RESP_DEC_PATH,
+    RC_PARAMS_DEFAULT,
 )
 from subject_selector import SubjectSelector
-from labels import *
+from util import (
+    makedirs_or_pass,
+    matrixify_ndarray,
+    pval_order,
+    vectorize_ndarray,
+)
+
+plt.rcParams.update(RC_PARAMS_DEFAULT)
+
+from labels import AbstractMovieSet, AbstractTask
 
 
-def read_manual_rating(mset, task, subj):
+def read_manual_rating(
+    mset: AbstractMovieSet, task: AbstractTask, subj: str
+) -> np.ndarray:
     with h5py.File(
-        MANUAL_RATING_PATH(mset.__name__, task.__name__, subj), "r"
+        MANUAL_RATING_PATH(mset.name(), task.name(), subj), "r"
     ) as f:
         return f["manualRating"][()]
 
 
-def read_pstim_from_meas_resp_dec(mset, task, subj):
+def read_pstim_from_meas_resp_dec(
+    mset: AbstractMovieSet, task: AbstractTask, subj: str
+) -> np.ndarray:
     with h5py.File(
-        MEAS_RESP_DEC_PATH(mset.__name__, task.__name__, subj), "r"
+        MEAS_RESP_DEC_PATH(mset.name(), task.name(), subj), "r"
     ) as f:
         return f["pstim"][()]
 
 
-def read_pstim_from_pred_resp_dec(mset, task, subj):
+def read_pstim_from_pred_resp_dec(
+    mset: AbstractMovieSet, task: AbstractTask, subj: str
+) -> np.ndarray:
     with h5py.File(
-        PRED_RESP_DEC_PATH(mset.__name__, task.__name__, subj), "r"
+        PRED_RESP_DEC_PATH(mset.name(), task.name(), subj), "r"
     ) as f:
         return f["pstim"][()]
 
 
-def calc_pair_dist(msets, tasks, is_for_manual=False):
+def calc_pair_dist(
+    msets: List[AbstractMovieSet],
+    tasks: List[AbstractTask],
+    is_for_manual=False,
+) -> Tuple[dict, dict, dict]:
     subj_all = SubjectSelector()
 
-    dist_all = {}
-    rvals = {}
-    pvals = {}
+    dist_all: dict = {}
+    rvals: dict = {}
+    pvals: dict = {}
     for mset in msets:
         dist_all[mset] = {}
         rvals[mset] = {}
         pvals[mset] = {}
         for task in tasks:
-            task_from_mset = task()
-            if not task_from_mset.from_movie_set(mset):
-                continue
-            if is_for_manual and not task_from_mset.has_manual_rating:
+            exists_combination = task.from_movie_set(mset)
+            if (not exists_combination) or (
+                is_for_manual and not task.has_manual_rating
+            ):
                 continue
 
             subjs = subj_all.select(mset, task)
@@ -80,7 +96,7 @@ def calc_pair_dist(msets, tasks, is_for_manual=False):
             dist_all[mset][task] = []
             rvals[mset][task] = []
             pvals[mset][task] = []
-            if task_from_mset.isVector:
+            if task.isVector:
                 # (subject: 40, time: 1200, w2v_dim: 100) -> (1200, 40, 100)
                 x_resp = x_resp.transpose(1, 0, 2)
                 pred_resp_dec = pred_resp_dec.transpose(1, 0, 2)
@@ -119,24 +135,21 @@ def calc_pair_dist(msets, tasks, is_for_manual=False):
 
 
 class PairDistPlotter:
-    def __init__(self):
-        self.__is_for_manual = False
-        self.__xlabel = (
-            "Participant-pair dissimilarity\nfor measured-response decoding"
-        )
-        self.__ylabel = (
-            "Participant-pair dissimilarity\nfor predicted-response decoding"
-        )
+    __is_for_manual: bool = False
+    __xlabel: str = (
+        "Participant-pair dissimilarity\nfor measured-response decoding"
+    )
+    __ylabel: str = (
+        "Participant-pair dissimilarity\nfor predicted-response decoding"
+    )
 
     def plot(
         self,
         x: np.ndarray,
         y: np.ndarray,
-        rval: float = None,
-        pval: float = None,
+        rval: float,
+        pval: float,
     ) -> object:
-        if [rval, pval] == [None, None]:
-            rval, pval = spearmanr(x, y)
         fig, ax = plt.subplots()
         ax.scatter(x, y, s=12, c=self.__color, edgecolor="none")
         ax.set_title(self.__title, fontsize=12)
@@ -153,7 +166,7 @@ class PairDistPlotter:
         )
         ax.text(
             0.02,
-            0.85,
+            0.9,
             f"{pval_order(pval)}",
             ha="left",
             va="top",
@@ -162,11 +175,11 @@ class PairDistPlotter:
         )
         return fig
 
-    def for_manual(self):
+    def for_manual(self) -> None:
         self.__is_for_manual = True
         self.__xlabel = "Participant-pair dissimilarity\nof manual ratings"
 
-    def set_title(self, task_from_mset, k):
+    def set_title(self, task_from_mset: AbstractTask, k: int) -> None:
         title_item = (
             ""
             if task_from_mset.item_names[k] == ""
@@ -175,8 +188,10 @@ class PairDistPlotter:
         self.__title = f"{task_from_mset.title} ({task_from_mset.title_movie_set}){title_item}"
         self.__color = task_from_mset.color
 
-    def plot_all_mset_task(self, dist_all, rvals, pvals):
-        figs = {}
+    def plot_all_mset_task(
+        self, dist_all: dict, rvals: dict, pvals: dict
+    ) -> dict:
+        figs: dict = {}
 
         for mset in dist_all:
             figs[mset] = {}
@@ -194,27 +209,25 @@ class PairDistPlotter:
                         rvals[mset][task][item_i],
                         pvals[mset][task][item_i],
                     )
-                    task_from_mset = task()
-                    task_from_mset.from_movie_set(mset)
-                    self.set_title(task_from_mset, item_i)
+                    task.from_movie_set(mset)
+                    self.set_title(task, item_i)
                     fig = self.plot(dists_x, dists_pred_resp_dec, rval, pval)
                     figs[mset][task].append(fig)
         return figs
 
-    def save_all_mset_task(self, figs):
+    def save_all_mset_task(self, figs: dict) -> None:
         for mset in figs.keys():
-            res_mset_dir = f"result/{mset.__name__}"
+            res_mset_dir = f"result/{mset.name()}"
             makedirs_or_pass(res_mset_dir)
             for task in figs[mset].keys():
-                task_from_mset = task()
-                task_from_mset.from_movie_set(mset)
+                task.from_movie_set(mset)
                 for item_i, fig in tqdm(enumerate(figs[mset][task])):
                     title_item = (
                         ""
-                        if task_from_mset.item_names[item_i] == ""
-                        else f" - {task_from_mset.item_names[item_i]}"
+                        if task.item_names[item_i] == ""
+                        else f" - {task.item_names[item_i]}"
                     )
-                    fname = f"{task().title}{title_item}".replace("/", " or ")
+                    fname = f"{task.title}{title_item}".replace("/", " or ")
                     if self.__is_for_manual:
                         fname += " (manual rating)"
                     fig.savefig(

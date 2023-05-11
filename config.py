@@ -1,13 +1,18 @@
 SUBJECT_DATA_PATH = "data/SubjectData.csv"
-MANUAL_RATING_PATH = (
-    lambda mset, task, subj: f"data/{mset}/{subj}/{task}/ManualRating.hdf5"
-)
-MEAS_RESP_DEC_PATH = (
-    lambda mset, task, subj: f"data/{mset}/{subj}/{task}/MeasRespDec_Ctx.hdf5"
-)
-PRED_RESP_DEC_PATH = (
-    lambda mset, task, subj: f"data/{mset}/{subj}/{task}/PredRespDec_VGG16_SoundNet_AR2000_Ctx.hdf5"
-)
+
+
+def MANUAL_RATING_PATH(mset: str, task: str, subj: str) -> str:
+    return f"data/{mset}/{subj}/{task}/ManualRating.hdf5"
+
+
+def MEAS_RESP_DEC_PATH(mset: str, task: str, subj: str) -> str:
+    return f"data/{mset}/{subj}/{task}/MeasRespDec_Ctx.hdf5"
+
+
+def PRED_RESP_DEC_PATH(mset: str, task: str, subj: str) -> str:
+    return (
+        f"data/{mset}/{subj}/{task}/PredRespDec_VGG16_SoundNet_AR2000_Ctx.hdf5"
+    )
 
 
 RC_PARAMS_DEFAULT = {

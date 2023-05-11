@@ -1,12 +1,8 @@
 import argparse
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_pdf import PdfPages
-from pair_dist import PairDistPlotter, calc_pair_dist
-from util import tofdr, map_list
-from labels import *
-from config import RC_PARAMS_DEFAULT
 
-plt.rcParams.update(RC_PARAMS_DEFAULT)
+from labels import *
+from pair_dist import PairDistPlotter, calc_pair_dist
+from util import map_list, tofdr
 
 
 def main(msets, tasks):
@@ -29,8 +25,10 @@ def main(msets, tasks):
 
 
 if __name__ == "__main__":
-    mset_args = map_list(lambda mset: mset().arg, MOVIE_SET_ALL)
-    task_args = map_list(lambda task: task().arg, TASK_ALL)
+    mset_args = map_list(
+        lambda mset_class: mset_class.arg, MOVIE_SET_CLASS_ALL
+    )
+    task_args = map_list(lambda task_class: task_class.arg, TASK_CLASS_ALL)
 
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -52,15 +50,15 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     msets = map_list(
-        lambda mset_arg: MOVIE_SET_ALL[mset_args.index(mset_arg)],
+        lambda mset_arg: MOVIE_SET_CLASS_ALL[mset_args.index(mset_arg)](),
         args.movie_set,
     )
     tasks = map_list(
-        lambda task_arg: TASK_ALL[task_args.index(task_arg)],
+        lambda task_arg: TASK_CLASS_ALL[task_args.index(task_arg)](),
         args.task,
     )
 
-    print("Movie set:", *map_list(lambda mset: mset.__name__, msets))
-    print("Task     :", *map_list(lambda task: task.__name__, tasks))
+    print("Movie set:", *map_list(lambda mset: mset.name(), msets))
+    print("Task     :", *map_list(lambda task: task.name(), tasks))
 
     main(msets, tasks)
