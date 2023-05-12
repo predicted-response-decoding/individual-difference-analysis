@@ -17,7 +17,7 @@ class AbstractTask(ABC, ClassNameMixin):
     title: str
     item_names: List[str]
     colors: Dict[Callable[[], AbstractMovieSet], str]
-    isVector: bool = False
+    is_vector: bool = False
     has_manual_rating: bool = False
 
     def from_movie_set(self, mset: AbstractMovieSet) -> bool:
@@ -49,7 +49,7 @@ class SceneDescriptions(AbstractTask):
     title = "Scene descriptions"
     colors = {WebAdMovieSet: "#fff100", TVAdMovieSet: "#f6aa00"}
     item_names = [""]
-    isVector = True
+    is_vector = True
 
 
 class ImpressionRatings(AbstractTask):

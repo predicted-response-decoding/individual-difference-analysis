@@ -96,7 +96,7 @@ def calc_pair_dist(
             dist_all[mset][task] = []
             rvals[mset][task] = []
             pvals[mset][task] = []
-            if task.isVector:
+            if task.is_vector:
                 # (subject: 40, time: 1200, w2v_dim: 100) -> (1200, 40, 100)
                 x_resp = x_resp.transpose(1, 0, 2)
                 pred_resp_dec = pred_resp_dec.transpose(1, 0, 2)
