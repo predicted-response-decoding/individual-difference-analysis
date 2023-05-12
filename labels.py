@@ -3,7 +3,10 @@ from typing import Callable, Dict, List
 
 
 class ClassNameMixin:
-    def name(self):
+    def __init__(self) -> None:
+        self.name: str = self.__class__.__name__
+
+    def gomi(self):
         return self.__class__.__name__
 
 

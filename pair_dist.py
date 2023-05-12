@@ -1,4 +1,4 @@
-from typing import List, Tuple
+from typing import Any, Dict, List, Tuple
 
 import h5py
 import matplotlib.pyplot as plt
@@ -29,27 +29,21 @@ from labels import AbstractMovieSet, AbstractTask
 def read_manual_rating(
     mset: AbstractMovieSet, task: AbstractTask, subj: str
 ) -> np.ndarray:
-    with h5py.File(
-        MANUAL_RATING_PATH(mset.name(), task.name(), subj), "r"
-    ) as f:
+    with h5py.File(MANUAL_RATING_PATH(mset.name, task.name, subj), "r") as f:
         return f["manualRating"][()]
 
 
 def read_pstim_from_meas_resp_dec(
     mset: AbstractMovieSet, task: AbstractTask, subj: str
 ) -> np.ndarray:
-    with h5py.File(
-        MEAS_RESP_DEC_PATH(mset.name(), task.name(), subj), "r"
-    ) as f:
+    with h5py.File(MEAS_RESP_DEC_PATH(mset.name, task.name, subj), "r") as f:
         return f["pstim"][()]
 
 
 def read_pstim_from_pred_resp_dec(
     mset: AbstractMovieSet, task: AbstractTask, subj: str
 ) -> np.ndarray:
-    with h5py.File(
-        PRED_RESP_DEC_PATH(mset.name(), task.name(), subj), "r"
-    ) as f:
+    with h5py.File(PRED_RESP_DEC_PATH(mset.name, task.name, subj), "r") as f:
         return f["pstim"][()]
 
 
@@ -215,9 +209,11 @@ class PairDistPlotter:
                     figs[mset][task].append(fig)
         return figs
 
-    def save_all_mset_task(self, figs: dict) -> None:
+    def save_all_mset_task(
+        self, figs: Dict[AbstractMovieSet, Dict[AbstractTask, Any]]
+    ) -> None:
         for mset in figs.keys():
-            res_mset_dir = f"result/{mset.name()}"
+            res_mset_dir = f"result/{mset.name}"
             makedirs_or_pass(res_mset_dir)
             for task in figs[mset].keys():
                 task.from_movie_set(mset)

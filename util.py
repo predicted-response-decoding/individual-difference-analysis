@@ -1,5 +1,5 @@
 import os
-from typing import Any, Callable, Iterable
+from typing import Any, Callable, Iterable, List
 
 import numpy as np
 from statsmodels.stats.multitest import fdrcorrection
@@ -18,8 +18,8 @@ def tofdr(pvals: dict) -> dict:
     if len(all_pvals) == 0:
         return pvals
 
-    all_pvals_flatten = np.hstack(all_pvals)
-    _, all_fdr_pvals = fdrcorrection(all_pvals_flatten)
+    all_pvals_flattened = np.hstack(all_pvals)
+    _, all_fdr_pvals = fdrcorrection(all_pvals_flattened)
     all_fdr_pvals = all_fdr_pvals.tolist()
 
     fdr_pvals: dict = {}
@@ -54,7 +54,7 @@ Other utility
 """
 
 
-def map_list(f: Callable[[Any], np.ndarray], iter: Iterable[Any]) -> list:
+def map_list(f: Callable[[Any], Any], iter: Iterable[Any]) -> List[Any]:
     return list(map(f, iter))
 
 

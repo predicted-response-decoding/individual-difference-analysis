@@ -58,7 +58,7 @@ if __name__ == "__main__":
         args.task,
     )
 
-    print("Movie set:", *map_list(lambda mset: mset.name(), msets))
-    print("Task     :", *map_list(lambda task: task.name(), tasks))
+    print("Movie set:", *map_list(lambda mset: mset.name, msets))
+    print("Task     :", *map_list(lambda task: task.name, tasks))
 
     main(msets, tasks)
