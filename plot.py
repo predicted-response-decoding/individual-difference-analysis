@@ -1,6 +1,6 @@
 import argparse
 
-from labels import *
+from labels import MOVIE_SET_CLASS_ALL, TASK_CLASS_ALL
 from pair_dist import PairDistPlotter, calc_pair_dist
 from util import map_list, tofdr
 
