@@ -6,9 +6,6 @@ class ClassNameMixin:
     def __init__(self) -> None:
         self.name: str = self.__class__.__name__
 
-    def gomi(self):
-        return self.__class__.__name__
-
 
 class AbstractMovieSet(ABC, ClassNameMixin):
     arg: str
