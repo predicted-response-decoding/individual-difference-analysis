@@ -3,23 +3,14 @@ from typing import Any, Dict, List, Tuple
 import h5py
 import matplotlib.pyplot as plt
 import numpy as np
+from config import (MANUAL_RATING_PATH, MEAS_RESP_DEC_PATH, PRED_RESP_DEC_PATH,
+                    RC_PARAMS_DEFAULT)
 from scipy.spatial.distance import pdist
 from scipy.stats import spearmanr
-from tqdm import tqdm
-
-from config import (
-    MANUAL_RATING_PATH,
-    MEAS_RESP_DEC_PATH,
-    PRED_RESP_DEC_PATH,
-    RC_PARAMS_DEFAULT,
-)
 from subject_selector import SubjectSelector
-from util import (
-    makedirs_or_pass,
-    matrixify_ndarray,
-    pval_order,
-    vectorize_ndarray,
-)
+from tqdm import tqdm
+from util import (makedirs_or_pass, matrixify_ndarray, pval_order,
+                  vectorize_ndarray)
 
 plt.rcParams.update(RC_PARAMS_DEFAULT)
 

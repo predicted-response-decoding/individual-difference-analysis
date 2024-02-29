@@ -47,15 +47,19 @@ We provide predicted decodings by measured and predicted voxel response.
 
 **※In subjective preference ratings, IDR is also calculated for manual ratings, which were annotated from fMRI subjects.**
 
-## How to use
+## Usage
 
 Execute plot.py. The result pictures will be stored in `result/` directory.
 
-| Option | Description                                               | Choice         |
-| ------ | --------------------------------------------------------- | -------------- |
-| -m     | Movie set as stimlus                                      | web tv         |
-| -t     | Task decoded by predicted- and measured-response decoding | sd ir ae ap pr |
+| Option | Choices | Description |
+| - | - | - |
+| -m | web tv | Movie set as stimlus |
+| -t | sd ir ae ap pr | Task decoded by predicted- and measured-response decoding |
 
-You can execute same program with plot.ipynb.
+### Example
+
+`python pair_dist.py -m web tv -t sd ir ae ap pr`
+
+You can execute the same program as above with plot.ipynb.
 
 Code is formatted by Black Formatter in Visual Studio Code.
