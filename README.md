@@ -1,4 +1,4 @@
-# Analysis for individual differences in mental information decoded from predicted voxel response
+# Analysis for individual differences in mental information decoded from predicted voxel responses
 
 This program show individual-difference reflection (IDR) of predictted-response decoding for measured-response decoding.
 
@@ -30,7 +30,8 @@ This program show individual-difference reflection (IDR) of predictted-response 
 │           └── PreferenceRatings
 ├── config.py
 ├── task.py
-├── plot.ipynb
+├── scatterplot-idr.ipynb
+├── scatterplot-idr.py
 └── util.py
 ```
 
@@ -54,6 +55,6 @@ We provide results decoded from measured and predicted voxel responses.
 
 ## Usage
 
-Please execute `scatterplot-idr.ipynb`.
+Please execute `scatterplot-idr.py` or `scatterplot-idr.ipynb`.
 
 The resultant figures are stored in `result/` directory.
