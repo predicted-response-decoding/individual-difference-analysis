@@ -1,0 +1,7 @@
+._.DS_Store
+.DS_Store
+.ipynb_checkpoints/
+__pycache__/
+result/
+test.ipynb
+movedata.ipynb

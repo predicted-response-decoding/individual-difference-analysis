@@ -18,8 +18,16 @@ This program show individual-difference reflection (IDR) of predictted-response 
 │   │       └── PreferenceRatings
 │   └── subjects.scv
 ├── (result)
-│   ├── TVAdMovieSet
-│   └── WebAdMovieSet
+│   └── {DNN set}
+│       ├── TVAdMovieSet
+│       │   ├── SceneDescription
+│       │   ├── ImpressionRatings
+│       │   └── AdEffectivenessIndices
+│       └── WebAdMovieSet
+│           ├── SceneDescription
+│           ├── ImpressionRatings
+│           ├── AdPreferenceVotes
+│           └── PreferenceRatings
 ├── config.py
 ├── task.py
 ├── plot.ipynb
@@ -30,7 +38,7 @@ This program show individual-difference reflection (IDR) of predictted-response 
 
 There are two different sets of movies, with multiple categories.
 
-We provide predicted decodings by measured and predicted voxel response.
+We provide results decoded from measured and predicted voxel responses.
 
 1. Web ad movie set
    - Scene descriptions (data/WebAdMovieSet/{subject}/SceneDescription/; 40 subjects)
@@ -42,21 +50,10 @@ We provide predicted decodings by measured and predicted voxel response.
    - Ad preference votes (data/TVAdMovieSet/{subject}/AdPreferenceVotes/; 28 subjects)
    - Subjective preference ratings (data/TVAdMovieSet/{subject}/PreferenceRatings/; 14 subjects)
 
-**※In subjective preference ratings can also be used for the analysis of individidual differences of behavior.**
+**※Subjective preference ratings can also be used for the analysis of individidual differences of behavior.**
 
 ## Usage
 
-Execute plot.py. The resultant pictures will be stored in `result/` directory.
+Please execute `scatterplot-idr.ipynb`.
 
-| Option | Choices | Description |
-| - | - | - |
-| -m | web tv | Movie set as stimlus |
-| -t | sd ir ae ap pr | Task decoded by predicted- and measured-response decoding |
-
-### Example
-
-`python pair_dist.py -m web tv -t sd ir ae ap pr`
-
-You can execute the same program as above with plot.ipynb.
-
-Code is formatted by Black Formatter in Visual Studio Code.
+The resultant figures are stored in `result/` directory.
