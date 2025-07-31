@@ -1,6 +1,6 @@
 # Analysis for individual differences in mental information decoded from predicted voxel responses
 
-This program show individual-difference reflection (IDR) of predictted-response decoding for measured-response decoding.
+This program performs calculation of individual-difference reflection (IDR) of predictted-response decoding.
 
 ```
 .
@@ -18,26 +18,21 @@ This program show individual-difference reflection (IDR) of predictted-response 
 │   │       └── PreferenceRatings
 │   └── subjects.scv
 ├── (result)
-│   └── {DNN set}
-│       ├── TVAdMovieSet
-│       │   ├── SceneDescription
-│       │   ├── ImpressionRatings
-│       │   └── AdEffectivenessIndices
-│       └── WebAdMovieSet
-│           ├── SceneDescription
-│           ├── ImpressionRatings
-│           ├── AdPreferenceVotes
-│           └── PreferenceRatings
-├── config.py
-├── task.py
-├── scatterplot-idr.ipynb
-├── scatterplot-idr.py
-└── util.py
+    └── {DNN set}
+        ├── TVAdMovieSet
+        │   ├── SceneDescription
+        │   ├── ImpressionRatings
+        │   └── AdEffectivenessIndices
+        └── WebAdMovieSet
+            ├── SceneDescription
+            ├── ImpressionRatings
+            ├── AdPreferenceVotes
+            └── PreferenceRatings
 ```
 
 ## Data
 
-There are two different sets of movies, with multiple categories.
+There are two different sets of movies, with multiple categories of labels.
 
 We provide results decoded from measured and predicted voxel responses.
 
@@ -55,6 +50,14 @@ We provide results decoded from measured and predicted voxel responses.
 
 ## Usage
 
-Please execute `scatterplot-idr.py` or `scatterplot-idr.ipynb`.
+1. Please execute `calc_idr_pval.py` first for calculating permutation test, which takes time.
+
+```bash
+python calc_idr_pval.py -m
+```
+
+2. Now you can execute all ipynb files (or py files with the same names), each of which corresponds to main result in the following paper [Kawahata et al. 2022 bioRxiv].
+
+Kawahata, K., Wang, J., Blanc, A., Maeda, N., Nishimoto, S., & Nishida, S. (2022). Decoding individual differences in mental information from human brain response predicted by convolutional neural networks. bioRxiv, 2022-05. https://doi.org/10.1101/2022.05.16.492029
 
 The resultant figures are stored in `result/` directory.
