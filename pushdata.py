@@ -1,15 +1,25 @@
 import os
-import movieset
+import mystim
+import mytask
 
 
-stims = [movieset.WebAdMovieSet, movieset.TVAdMovieSet]
+msets = [mystim.WebAdMovieSet, mystim.TVAdMovieSet]
+tasks = [
+    mytask.SceneDescriptions,
+    mytask.ImpressionRatings,
+    mytask.AdEffectivenessIndices,
+    mytask.AdPreferenceVotes,
+    mytask.PreferenceRatings,
+]
 
-for stim in stims:
-    subjs = stim.get_subjects()
+for m in msets:
+    subjs = m.get_subjects()
     for subj in subjs:
-        dirname = f'./data/{stim.__name__}/{subj}/'
-        os.system(f'git add {dirname}')
-        os.system(f'git commit -m \'upload {dirname}\'')
-        os.system('git push')
+            for t in tasks:
+                if m not in t.msets: continue
+                dirname = f'./data/{m.__name__}/{subj}/{t.__name__}'
+                os.system(f'git add {dirname}')
+                os.system(f'git commit -m \'upload {dirname}\'')
+                os.system('git push')
 
 print("Done")

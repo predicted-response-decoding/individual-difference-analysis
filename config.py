@@ -21,7 +21,8 @@ def get_pred_resp_dec(mset: str, task: str, nnmodel: str, subj: str) -> str:
         return f["pstim"][:]
 
 
-RC_PARAMS_DEFAULT = {
+RCPARAMS_DEFAULT = {
+    # 'figure.autolayout': True,
     "figure.figsize": (4, 4),
     "font.size": 12,
     "xtick.labelsize": 10,
@@ -29,5 +30,14 @@ RC_PARAMS_DEFAULT = {
     "legend.fontsize": 10,
     "savefig.dpi": 300,
     "figure.dpi": 100,
-    "patch.facecolor": "w",
+    "lines.linewidth": .3, #0.7
+    "lines.markersize": 4,
+    "errorbar.capsize": 4,
+    # "lines.markeredgecolor": "k",
+    "lines.markeredgewidth": .3,
+    "scatter.edgecolors": "k",
+    # "axes.linewidth": 0.5,
+    "axes.edgecolor": "k",
+    "savefig.dpi": 300,
+    "savefig.bbox": "tight",
 }

@@ -1,0 +1,8 @@
+nnmodel: VGG16_SoundNet
+task_arg: w2v
+
+hydra:
+  sweeper:
+    params:
+      nnmodel: VGG16_SoundNet,ResNet50_SoundNet,ViT_B_16_SoundNet,VGG16,ResNet50,ViT_B_16,SoundNet,VGG16_pool1,VGG16_pool2,VGG16_pool3,VGG16_pool4,VGG16_pool5,VGG16_fc6,VGG16_fc7,VGG16_fc8,ResNet50_pool1,ResNet50_res2a,ResNet50_res2c,ResNet50_res3a,ResNet50_res3d,ResNet50_res4a,ResNet50_res4f,ResNet50_res5a,ResNet50_res5c,ResNet50_pool5,ResNet50_fc1000,ViT_B_16_attn1,ViT_B_16_attn2,ViT_B_16_attn3,ViT_B_16_attn4,ViT_B_16_attn5,ViT_B_16_attn6,ViT_B_16_attn7,ViT_B_16_attn8,ViT_B_16_attn9,ViT_B_16_attn10,ViT_B_16_attn11,ViT_B_16_attn12,SoundNet_conv1,SoundNet_conv2,SoundNet_conv3,SoundNet_conv4,SoundNet_conv5,SoundNet_conv6,SoundNet_conv7
+      task_arg: sd,ir,ae,ap,pr

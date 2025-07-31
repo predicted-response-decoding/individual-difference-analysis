@@ -2,6 +2,7 @@
 .DS_Store
 .ipynb_checkpoints/
 __pycache__/
+multirun/
 result/
 test.ipynb
 movedata.ipynb

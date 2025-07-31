@@ -15,6 +15,9 @@ def n_comb2n(n_comb):
         if m_comb < n_comb: s = m + 1
         elif n_comb <= m_comb: t = m
 
+    assert s * (s - 1) // 2 == n_comb, \
+        "n_comb must equal to N * (N - 1) // 2 (N is natural number)"
+
     return s
 
 

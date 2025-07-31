@@ -1,16 +1,16 @@
 from abc import ABC
-from typing import Callable, Dict, List
 import pandas as pd
 
-from movieset import AbstractMovieSet, WebAdMovieSet, TVAdMovieSet
+from mystim import AbstractStimulus, WebAdMovieSet, TVAdMovieSet
 from config import SUBJECTS_CSV_PATH
 
 
 class AbstractTask(ABC):
     arg: str
     title: str
-    item_names: List[str]
-    colors: Dict[Callable[[], AbstractMovieSet], str]
+    color: str
+    item_names: list[str]
+    msets: list[AbstractStimulus]
     is_vector: bool = False
     has_manual_rating: bool = False
 
@@ -24,7 +24,8 @@ class AbstractTask(ABC):
 class SceneDescriptions(AbstractTask):
     arg = "sd"
     title = "Scene descriptions"
-    colors = {WebAdMovieSet: "#fff100", TVAdMovieSet: "#f6aa00"}
+    color = "#f6aa00"
+    msets = [WebAdMovieSet, TVAdMovieSet]
     item_names = ["Scene descriptions"]
     is_vector = True
 
@@ -32,7 +33,8 @@ class SceneDescriptions(AbstractTask):
 class ImpressionRatings(AbstractTask):
     arg = "ir"
     title = "Impression ratings"
-    colors = {WebAdMovieSet: "#4dc4ff", TVAdMovieSet: "#005aff"}
+    color = "#005aff"
+    msets = [WebAdMovieSet, TVAdMovieSet]
     item_names = [
         "Beautiful",
         "Urban",
@@ -70,7 +72,8 @@ class ImpressionRatings(AbstractTask):
 class AdEffectivenessIndices(AbstractTask):
     arg = "ae"
     title = "Ad effectiveness indices"
-    colors = {WebAdMovieSet: "#ff4b00"}
+    color = "#ff4b00"
+    msets = [WebAdMovieSet]
     item_names = [
         "Click through rate",
         "25% view completion rate",
@@ -83,7 +86,8 @@ class AdEffectivenessIndices(AbstractTask):
 class AdPreferenceVotes(AbstractTask):
     arg = "ap"
     title = "Ad preference votes"
-    colors = {TVAdMovieSet: "#03af7a"}
+    color = "#03af7a"
+    msets = [TVAdMovieSet]
     item_names = [
         "Preference",
         "Cast-Character",
@@ -110,7 +114,8 @@ class AdPreferenceVotes(AbstractTask):
 class PreferenceRatings(AbstractTask):
     arg = "pr"
     title = "Preference ratings"
-    colors = {TVAdMovieSet: "#000000"}
+    color = "#880088"
+    msets = [TVAdMovieSet]
     item_names = ["Preference ratings"]
     has_manual_rating = True
 
@@ -120,3 +125,9 @@ class PreferenceRatings(AbstractTask):
         subjs = subj_all[subj_all.mset == mset.__name__]
         subjs = subjs[subjs[f"manual_PreferenceRatings"] == 1]
         return subjs.unique_id
+
+def get_task_by_arg(arg) -> AbstractTask:
+    for stim in AbstractTask.__subclasses__():
+        if stim.arg == arg: return stim
+
+    assert 0

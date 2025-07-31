@@ -3,7 +3,7 @@ import pandas as pd
 
 from config import SUBJECTS_CSV_PATH
 
-class AbstractMovieSet(ABC):
+class AbstractStimulus(ABC):
     arg: str
     title: str
 
@@ -14,11 +14,11 @@ class AbstractMovieSet(ABC):
         return subjs.unique_id
 
 
-class WebAdMovieSet(AbstractMovieSet):
+class WebAdMovieSet(AbstractStimulus):
     arg = "web"
     title = "Web ad movie set"
 
 
-class TVAdMovieSet(AbstractMovieSet):
+class TVAdMovieSet(AbstractStimulus):
     arg = "tv"
     title = "TV ad movie set"
